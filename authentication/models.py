@@ -64,13 +64,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         """
         dt = datetime.now() + timedelta(days=settings.JWT_AUTH.get('TOKEN_EXPIRY'))
 
-        # HS256
-        # token = jwt.encode({
-        #     'id': self.pk,
-        #     'exp': int(dt.strftime('%s'))
-        # }, settings.SECRET_KEY, algorithm='HS256')
-
-        # RS256
         token = jwt.encode({
             'id': self.pk,
             'exp': int(dt.strftime('%s'))
