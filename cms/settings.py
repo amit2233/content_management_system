@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'authentication',
+    'content'
 ]
 
 MIDDLEWARE = [
@@ -70,7 +72,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cms.wsgi.application'
 
-
+AUTH_USER_MODEL = 'authentication.User'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -100,6 +102,20 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'authentication.backends.JWTAuthentication',
+    ),
+    'EXCEPTION_HANDLER': 'core.exceptions.core_exception_handler',
+    'NON_FIELD_ERRORS_KEY': 'error',
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
 
 JWT_AUTH = {
     'JWT_PUBLIC_KEY': open("{}/jwtRS256.key.pub".format(BASE_DIR)).read(),
