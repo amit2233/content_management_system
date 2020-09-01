@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import jwt
 from django.conf import settings
 from django.contrib.auth.models import (
-    AbstractBaseUser, BaseUserManager
+    AbstractBaseUser, BaseUserManager, PermissionsMixin
 )
 from django.db import models
 
@@ -31,7 +31,7 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(db_index=True, unique=True)
 
     full_name = models.CharField(max_length=100)
@@ -41,7 +41,7 @@ class User(AbstractBaseUser):
     state = models.CharField(max_length=100, null=True)
     country = models.CharField(max_length=100, null=True)
     pin_code = models.IntegerField()
-
+    is_staff = models.BooleanField(default=False)
     USERNAME_FIELD = 'email'
 
     # Tells Django that the UserManager class defined above should manage

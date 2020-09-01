@@ -75,7 +75,6 @@ class LoginSerializer(serializers.Serializer):
         # for a user that matches this email/password combination. Notice how
         # we pass `email` as the `username` value since in our User
         # model we set `USERNAME_FIELD` as `email`.
-        print(email, password, "test")
         user = authenticate(email=email, password=password)
 
         # If no user was found matching this email/password combination then
